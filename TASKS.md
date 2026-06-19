@@ -161,15 +161,16 @@ Goal: make AppShelf's registration story clear, agent-friendly, and not tied to 
 
 Goal: make the first-time "add a real local web app" flow obvious from the main Add app entry, while keeping scan-folder management available in Settings.
 
-- [ ] Redesign Add app as the primary import entry instead of only a manual registration form.
-- [ ] Let users choose a project folder directly from the Add app dialog.
-- [ ] After choosing a folder, check whether the selected folder contains a `.localapp.json`.
-- [ ] If the selected folder has a valid manifest, preview the discovered app and let the user add it to AppShelf.
-- [ ] If the selected folder has no manifest, offer clear next actions: manual registration, copy Agent registration prompt, or add the folder as a scan folder.
-- [ ] If the selected folder contains multiple child manifests, show a compact discovery list before adding.
-- [ ] Detect duplicate and previously removed apps in the import flow and reuse the existing duplicate/restore behavior.
-- [ ] Keep Settings focused on long-term scan folder management, not as the only first-time import path.
-- [ ] Re-run typecheck/build and manually verify the updated Add app flow.
+- [x] Redesign Add app as the primary import entry instead of only a manual registration form.
+- [x] Let users choose a project folder directly from the Add app dialog.
+- [x] After choosing a folder, check whether the selected folder contains a `.localapp.json`.
+- [x] If the selected folder has a valid manifest, preview the discovered app and let the user add it to AppShelf.
+- [x] If the selected folder has no manifest, offer clear next actions: manual registration, copy Agent registration prompt, or add the folder as a scan folder.
+- [x] If the selected folder contains multiple child manifests, show a compact discovery list before adding.
+- [x] Detect duplicate and previously removed apps in the import flow and reuse the existing duplicate/restore behavior.
+- [x] Keep Settings focused on long-term scan folder management, not as the only first-time import path.
+- [x] Re-run typecheck/build for the updated Add app flow.
+- [ ] Manually verify the updated Add app flow.
 
 ## Phase 7: Library Sorting and Custom Order
 

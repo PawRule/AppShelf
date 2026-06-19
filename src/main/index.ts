@@ -333,6 +333,14 @@ function registerIpc(): void {
     return registry;
   });
 
+  ipcMain.handle("scan:previewFolder", async (_event, folder: string) => {
+    const scanResult = await scanFolders([folder]);
+    return {
+      ...scanResult,
+      folder
+    };
+  });
+
   ipcMain.handle("scan:removeFolder", async (_event, folder: string) => {
     registry = removeAppsFromScanFolder(registry, folder);
 

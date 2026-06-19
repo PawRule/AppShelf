@@ -23,6 +23,7 @@ import type {
   AppConfigInput,
   AppRecord,
   AppStatus,
+  FolderImportPreview,
   LogEntry,
   ManualAppInput,
   ScanDiagnostic,
@@ -346,6 +347,7 @@ function App(): React.JSX.Element {
 
       {addOpen ? (
         <ManualAppDialog
+          registry={registry}
           t={t}
           language={registry.settings.language}
           onClose={() => setAddOpen(false)}
@@ -1041,6 +1043,7 @@ function SettingsPanel({
 }
 
 function ManualAppDialog({
+  registry,
   t,
   language,
   onClose,
@@ -1048,6 +1051,7 @@ function ManualAppDialog({
   onSelectExisting,
   onSaved
 }: {
+  registry: UserRegistry;
   t: (key: MessageKey) => string;
   language: Language;
   onClose: () => void;
@@ -1063,13 +1067,62 @@ function ManualAppDialog({
     projectPath: "",
     writeManifest: true
   });
+  const [importPreview, setImportPreview] = useState<FolderImportPreview | undefined>();
+  const [importBusy, setImportBusy] = useState(false);
   const [registrationPromptCopied, setRegistrationPromptCopied] = useState(false);
+
+  const previewHiddenApps = importPreview?.apps.filter((app) => isHiddenManifest(registry, app)) ?? [];
+  const previewDuplicateApps = importPreview?.apps.filter((app) => findExistingApp(registry, app)) ?? [];
+  const previewNewApps =
+    importPreview?.apps.filter((app) => !isHiddenManifest(registry, app) && !findExistingApp(registry, app)) ?? [];
 
   async function selectProject(): Promise<void> {
     const folder = await window.appShelf.selectFolder();
     if (folder) {
       setInput((current) => ({ ...current, projectPath: folder, name: current.name || folder.split(/[\\/]/).at(-1) || "" }));
     }
+  }
+
+  async function selectImportFolder(): Promise<void> {
+    const folder = await window.appShelf.selectFolder();
+    if (!folder) return;
+
+    setInput((current) => ({ ...current, projectPath: folder, name: current.name || folder.split(/[\\/]/).at(-1) || "" }));
+    setImportBusy(true);
+    try {
+      setImportPreview(await window.appShelf.previewImportFolder(folder));
+    } finally {
+      setImportBusy(false);
+    }
+  }
+
+  async function addPreviewFolder(): Promise<void> {
+    if (!importPreview) return;
+
+    if (importPreview.apps.length === 0) {
+      const next = await window.appShelf.addScanFolder(importPreview.folder);
+      onSaved(next);
+      return;
+    }
+
+    if (importPreview.apps.length > 0 && previewNewApps.length === 0 && previewHiddenApps.length === 0) {
+      const existing = findExistingApp(registry, importPreview.apps[0]);
+      if (existing) {
+        onSelectExisting(existing.id);
+      }
+      return;
+    }
+
+    let next = await window.appShelf.addScanFolder(importPreview.folder);
+
+    for (const app of previewHiddenApps) {
+      if (app.manifestPath) {
+        next = await window.appShelf.restoreHiddenManifest(app.manifestPath);
+      }
+    }
+
+    const firstImported = [...previewNewApps, ...previewHiddenApps][0];
+    onSaved(next, firstImported?.id ?? next.apps.at(-1)?.id);
   }
 
   async function selectIcon(): Promise<void> {
@@ -1129,6 +1182,87 @@ function ManualAppDialog({
     <div className="modal-backdrop">
       <section className="panel manual-panel">
         <PanelHead title={t("addApp")} onClose={onClose} />
+
+        <section className="import-section">
+          <div className="import-heading">
+            <div>
+              <h3>{t("importProject")}</h3>
+              <p>{t("importProjectHint")}</p>
+            </div>
+            <button className="secondary-button" onClick={() => void selectImportFolder()} disabled={importBusy}>
+              <FolderOpen size={16} />
+              {importBusy ? t("scanning") : t("chooseProjectFolder")}
+            </button>
+          </div>
+
+          {importPreview ? (
+            <div className="import-preview">
+              <code title={importPreview.folder}>{importPreview.folder}</code>
+
+              {importPreview.apps.length > 0 ? (
+                <>
+                  <div className="import-result-title">
+                    <strong>
+                      {t("discoveredApps")} ({importPreview.apps.length})
+                    </strong>
+                    {previewNewApps.length > 0 ? <span>{t("newAppsFound")}: {previewNewApps.length}</span> : null}
+                  </div>
+                  <div className="import-app-list">
+                    {importPreview.apps.map((app) => {
+                      const existing = findExistingApp(registry, app);
+                      const hidden = isHiddenManifest(registry, app);
+                      return (
+                        <div className="import-app-row" key={app.id}>
+                          <AppIcon app={app} />
+                          <div>
+                            <strong>{app.name}</strong>
+                            <small>{app.manifestPath}</small>
+                          </div>
+                          {hidden ? <span className="mini-badge warning">{t("removed")}</span> : null}
+                          {existing ? <span className="mini-badge">{t("alreadyAdded")}</span> : null}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <button className="primary-button import-primary" onClick={() => void addPreviewFolder()}>
+                    {previewNewApps.length > 0 || previewHiddenApps.length > 0 ? t("addDiscoveredApps") : t("viewApp")}
+                  </button>
+                </>
+              ) : (
+                <div className="import-empty">
+                  <strong>{t("noManifestFound")}</strong>
+                  <p>{t("noManifestFoundHint")}</p>
+                  <div className="import-empty-actions">
+                    <button className="secondary-button" onClick={() => void copyRegistrationPrompt()}>
+                      <Copy size={16} />
+                      {registrationPromptCopied ? t("copied") : t("copyRegistrationPrompt")}
+                    </button>
+                    <button className="secondary-button" onClick={() => void addPreviewFolder()}>
+                      <Plus size={16} />
+                      {t("addAsScanFolder")}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {importPreview.diagnostics.length > 0 ? (
+                <div className="scan-diagnostics compact">
+                  {importPreview.diagnostics.map((diagnostic) => (
+                    <div className="scan-diagnostic" key={`${diagnostic.kind}:${diagnostic.path}`}>
+                      <strong>{scanDiagnosticLabel(diagnostic, t)}</strong>
+                      <code title={diagnostic.path}>{diagnostic.path}</code>
+                      {diagnostic.detail ? <small>{diagnostic.detail}</small> : null}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </section>
+
+        <div className="form-divider">
+          <span>{t("manualRegistration")}</span>
+        </div>
 
         <label className="field">
           <span>
@@ -1289,6 +1423,27 @@ function buildRegistrationPrompt(input: ManualAppInput, language: Language): str
     "Known AppShelf fields:",
     knownFields.length > 0 ? knownFields.join("\n") : "None yet; infer them from the current project."
   ].join("\n");
+}
+
+function normalizePathText(path?: string): string {
+  return (path ?? "").replaceAll("\\", "/").toLowerCase();
+}
+
+function isHiddenManifest(registry: UserRegistry, app: AppRecord): boolean {
+  if (!app.manifestPath) return false;
+  const manifestPath = normalizePathText(app.manifestPath);
+  return registry.hiddenManifestPaths.some((hiddenPath) => normalizePathText(hiddenPath) === manifestPath);
+}
+
+function findExistingApp(registry: UserRegistry, candidate: AppRecord): AppRecord | undefined {
+  const projectPath = normalizePathText(candidate.projectPath);
+  const manifestPath = normalizePathText(candidate.manifestPath);
+
+  return registry.apps.find((app) => {
+    if (app.id === candidate.id) return true;
+    if (normalizePathText(app.projectPath) === projectPath) return true;
+    return Boolean(manifestPath && normalizePathText(app.manifestPath) === manifestPath);
+  });
 }
 
 function AppConfigDialog({

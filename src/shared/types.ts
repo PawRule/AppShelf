@@ -67,6 +67,10 @@ export type ScanResult = {
   scannedAt: number;
 };
 
+export type FolderImportPreview = ScanResult & {
+  folder: string;
+};
+
 export type UserRegistry = {
   version: 0;
   settings: UserSettings;
