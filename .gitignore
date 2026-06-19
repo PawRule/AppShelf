@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+release/
+build/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Logs and runtime state
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# AppShelf local user data should never be committed
+registry.json
+
+# Local agent/development scratch space
+.agents/
+.codex/
+devFiles/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Test/cache artifacts
+coverage/
+.nyc_output/
+.cache/
+.vite/
