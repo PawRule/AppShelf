@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 6 complete. Ready to start Phase 7.
+Status: Phase 6.5 planned.
 
 ## MVP Baseline
 
@@ -157,6 +157,20 @@ Goal: make AppShelf's registration story clear, agent-friendly, and not tied to 
 - [x] Add a lightweight "copy registration prompt for agent" entry point in AppShelf if it improves the manual registration flow.
 - [x] Validate the guide with at least one real local project registration workflow.
 
+## Phase 6.5: Import UX Polish
+
+Goal: make the first-time "add a real local web app" flow obvious from the main Add app entry, while keeping scan-folder management available in Settings.
+
+- [ ] Redesign Add app as the primary import entry instead of only a manual registration form.
+- [ ] Let users choose a project folder directly from the Add app dialog.
+- [ ] After choosing a folder, check whether the selected folder contains a `.localapp.json`.
+- [ ] If the selected folder has a valid manifest, preview the discovered app and let the user add it to AppShelf.
+- [ ] If the selected folder has no manifest, offer clear next actions: manual registration, copy Agent registration prompt, or add the folder as a scan folder.
+- [ ] If the selected folder contains multiple child manifests, show a compact discovery list before adding.
+- [ ] Detect duplicate and previously removed apps in the import flow and reuse the existing duplicate/restore behavior.
+- [ ] Keep Settings focused on long-term scan folder management, not as the only first-time import path.
+- [ ] Re-run typecheck/build and manually verify the updated Add app flow.
+
 ## Phase 7: Library Sorting and Custom Order
 
 Goal: let users organize the AppShelf library like a shelf while preserving predictable non-manual sort modes.
@@ -190,7 +204,7 @@ Goal: let users paste a Git repository URL, clone it into a chosen local folder,
 ## Later / Deferred
 
 - [ ] Consider smart registration from a project folder: infer candidate commands, run a test launch, and write `.localapp.json` only after user confirmation.
-- [ ] Re-evaluate packaging after Phase 6, Phase 7, and Phase 8 stabilize.
+- [ ] Re-evaluate packaging after Phase 6.5, Phase 7, and Phase 8 stabilize.
 - [ ] Unregistered project detection.
 - [ ] Git status.
 - [ ] App screenshots.
