@@ -7,6 +7,8 @@ const defaultSettings: UserSettings = {
   language: "zh",
   theme: "light",
   viewMode: "cards",
+  sortMode: "custom",
+  libraryOrder: [],
   autoOpenBrowser: true,
   closeBehavior: "ask",
   scanFolders: []

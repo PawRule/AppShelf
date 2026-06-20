@@ -2,6 +2,8 @@ export type Language = "zh" | "en";
 
 export type ViewMode = "cards" | "list";
 
+export type LibrarySortMode = "custom" | "added" | "nameAsc" | "nameDesc";
+
 export type CloseBehavior = "ask" | "tray" | "exit";
 
 export type Theme = "light" | "dark";
@@ -42,6 +44,8 @@ export type UserSettings = {
   language: Language;
   theme: Theme;
   viewMode: ViewMode;
+  sortMode: LibrarySortMode;
+  libraryOrder: string[];
   autoOpenBrowser: boolean;
   closeBehavior: CloseBehavior;
   scanFolders: string[];

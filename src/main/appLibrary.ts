@@ -89,14 +89,30 @@ export function mergeApps(registry: UserRegistry, discovered: AppRecord[], runti
 
   const seen = new Set(mergedManifestApps.map((record) => record.id));
 
-  return {
+  return syncLibraryOrder({
     ...registry,
     apps: [...mergedManifestApps, ...existingManual.filter((record) => !seen.has(record.id))]
+  });
+}
+
+export function syncLibraryOrder(registry: UserRegistry): UserRegistry {
+  const appIds = registry.apps.map((app) => app.id);
+  const activeIds = new Set(appIds);
+  const currentOrder = registry.settings.libraryOrder.filter((id) => activeIds.has(id));
+  const orderedIds = new Set(currentOrder);
+  const missingIds = appIds.filter((id) => !orderedIds.has(id));
+
+  return {
+    ...registry,
+    settings: {
+      ...registry.settings,
+      libraryOrder: [...currentOrder, ...missingIds]
+    }
   };
 }
 
 export function removeAppsFromScanFolder(registry: UserRegistry, folder: string): UserRegistry {
-  return {
+  return syncLibraryOrder({
     ...registry,
     settings: {
       ...registry.settings,
@@ -106,7 +122,7 @@ export function removeAppsFromScanFolder(registry: UserRegistry, folder: string)
       if (!appRecord.manifestPath) return true;
       return !isPathInside(folder, dirname(appRecord.manifestPath));
     })
-  };
+  });
 }
 
 export function removeAppFromLibrary(
@@ -134,7 +150,11 @@ export function removeAppFromLibrary(
     registry: {
       ...registry,
       hiddenManifestPaths,
-      apps: registry.apps.filter((record) => record.id !== appId)
+      apps: registry.apps.filter((record) => record.id !== appId),
+      settings: {
+        ...registry.settings,
+        libraryOrder: registry.settings.libraryOrder.filter((id) => id !== appId)
+      }
     },
     removed: true
   };
