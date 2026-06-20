@@ -2,7 +2,7 @@
 
 Status: Draft v0
 
-` .localapp.json` is a local launch manifest for AppShelf. It tells AppShelf how to display and start one local web app.
+` .localapp.json` is a local launch manifest for AppShelf. It tells AppShelf how to display and start one localhost project.
 
 It is not a deployment file, package manager file, or secret store.
 
@@ -85,7 +85,7 @@ Examples:
 
 ## Command Rules
 
-`command` should be exactly what a human would run to start the local web app.
+`command` should be exactly what a human would run to start the local project.
 
 Good examples:
 
@@ -113,7 +113,7 @@ Do not include dependency installation commands unless the documented startup co
 
 The default registration path should create or update only `.localapp.json`.
 
-For simple static web apps with no existing local web server command, an agent may add a small helper launcher under `.localapp/`, for example:
+For simple static websites or web projects with no existing local web server command, an agent may add a small helper launcher under `.localapp/`, for example:
 
 ```text
 .localapp/server.js

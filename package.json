@@ -2,7 +2,7 @@
   "name": "appshelf",
   "version": "0.0.1",
   "private": true,
-  "description": "A Windows desktop app for launching and managing local web apps.",
+  "description": "A Windows desktop app for launching and managing localhost projects.",
   "license": "MIT",
   "keywords": [
     "electron",

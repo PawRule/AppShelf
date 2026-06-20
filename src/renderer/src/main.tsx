@@ -250,7 +250,7 @@ function App(): React.JSX.Element {
           <img className="brand-mark" src={appShelfIcon} alt="" />
           <div>
             <h1>AppShelf</h1>
-            <p>Local Web App Library</p>
+            <p>Localhost Project Library</p>
           </div>
         </div>
 
@@ -729,7 +729,7 @@ function buildRepairPrompt(app: AppRecord, entries: LogEntry[], language: Langua
 
   if (language === "zh") {
     return [
-      "请帮我修复这个本地 Web App 的启动问题。",
+      "请帮我修复这个 localhost 项目的启动问题。",
       "",
       "背景：这个项目由 AppShelf 启动失败，或者启动后本地 URL 不可达。请检查项目依赖、启动命令、端口配置和 .localapp.json。如需修改配置，请保持 AppShelf 可以继续一键启动。",
       "",
@@ -750,7 +750,7 @@ function buildRepairPrompt(app: AppRecord, entries: LogEntry[], language: Langua
   }
 
   return [
-    "Please help me fix this local web app startup issue.",
+    "Please help me fix this localhost project startup issue.",
     "",
     "Context: AppShelf failed to start this project, or the local URL did not become reachable after startup. Please check dependencies, the start command, port configuration, and .localapp.json. If config changes are needed, keep the project launchable from AppShelf.",
     "",
@@ -1388,7 +1388,7 @@ function buildRegistrationPrompt(input: ManualAppInput, language: Language): str
 
   if (language === "zh") {
     return [
-      "请帮我把这个本地 Web App 注册到 AppShelf。",
+      "请帮我把这个 localhost 项目注册到 AppShelf。",
       "",
       "目标：创建或更新项目根目录的 .localapp.json，让 AppShelf 可以发现并一键启动它。",
       projectPath ? `项目路径：${projectPath}` : "项目路径：请以当前对话所在项目为准。",
@@ -1407,7 +1407,7 @@ function buildRegistrationPrompt(input: ManualAppInput, language: Language): str
   }
 
   return [
-    "Please register this local web app for AppShelf.",
+    "Please register this localhost project for AppShelf.",
     "",
     "Goal: create or update .localapp.json in the project root so AppShelf can discover and start it with one click.",
     projectPath ? `Project path: ${projectPath}` : "Project path: use the current project in this conversation.",

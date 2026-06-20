@@ -4,15 +4,15 @@ Status: Draft v0
 
 This document defines the first version of the `.localapp.json` manifest used by AppShelf. The goal is not to create a full deployment format. The goal is to give humans, the desktop app, and AI agents a small, predictable file that answers one question:
 
-How do I start this local web app?
+How do I start this localhost project?
 
 For the concise field reference used by agents and contributors, see `docs/LOCALAPP_MANIFEST_V0.md`.
 
 ## Goals
 
-- Provide a technology-agnostic way to describe a local web app.
-- Let AI agents register generated apps by writing one manifest file.
-- Let AppShelf discover apps inside user-approved scan folders.
+- Provide a technology-agnostic way to describe a localhost project.
+- Let AI agents register generated projects by writing one manifest file.
+- Let AppShelf discover local projects inside user-approved scan folders.
 - Avoid requiring users to remember terminal commands.
 - Keep the first version small enough to be written by hand.
 
@@ -33,7 +33,7 @@ The manifest file must be named:
 .localapp.json
 ```
 
-It should be placed in the root directory of the web app project.
+It should be placed in the root directory of the local project.
 
 The directory containing `.localapp.json` is treated as the project root unless `workingDirectory` is provided.
 

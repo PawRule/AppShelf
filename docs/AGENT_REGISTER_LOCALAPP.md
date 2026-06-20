@@ -1,6 +1,6 @@
 # Register a Project for AppShelf
 
-This guide is for an AI coding agent working inside a local web app project.
+This guide is for an AI coding agent working inside a localhost project.
 
 Your task is to register the current project so it can be discovered and launched by **AppShelf**.
 
@@ -18,11 +18,13 @@ docs/skills/localapp-register/SKILL.md
 
 ## What AppShelf Is
 
-AppShelf is a Windows desktop app for managing local localhost web apps from a GUI.
+AppShelf is a Windows desktop app for managing localhost projects from a GUI.
+
+Those projects may be web apps, personal sites, blogs, docs sites, dashboards, games, demos, or local tools. The common requirement is that a local command starts something the user can open in a browser.
 
 It lets the user:
 
-- see local web apps in one app library
+- see localhost projects in one library
 - start an app without remembering terminal commands
 - stop or restart the app
 - open the localhost URL in a browser
@@ -81,7 +83,7 @@ If the startup command is unclear, report that clearly instead of guessing.
 
 Default to creating or updating only `.localapp.json`.
 
-If the project has no existing local web server command, but it is a simple static web app, you may create a small helper launcher under `.localapp/`.
+If the project has no existing local web server command, but it is a simple static website or web project, you may create a small helper launcher under `.localapp/`.
 
 Allowed example:
 

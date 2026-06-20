@@ -4,9 +4,11 @@ Status: Draft v0
 
 ## Product Vision
 
-AppShelf is a Windows desktop app for managing local web apps through a visual app library.
+AppShelf is a Windows desktop app for managing localhost projects through a visual library.
 
-The user should not need to remember startup commands, open terminals, or ask an AI agent to start a project manually. They should be able to open AppShelf, find an app, click Start, and use it in the browser.
+The user should not need to remember startup commands, open terminals, or ask an AI agent to start a project manually. They should be able to open AppShelf, find a project, click Start, and use it in the browser.
+
+The project can be a web app, personal site, blog, docs site, dashboard, game, demo, or local tool. AppShelf's concern is the local launch experience, not the category label.
 
 The product should feel closer to an app library than an IDE.
 
@@ -14,16 +16,16 @@ The product should feel closer to an app library than an IDE.
 
 The first user is the project owner.
 
-Future users may include AI-heavy developers and non-programmers who use agents to create local web apps.
+Future users may include AI-heavy developers and non-programmers who use agents to create localhost projects.
 
 ## Core Problem
 
-AI agents can cheaply create many local web apps, but managing them afterward is inconvenient:
+AI agents can cheaply create many localhost projects, but managing them afterward is inconvenient:
 
 - startup commands are scattered across README files, package scripts, chat history, or memory
 - projects may live in different folders
-- opening a terminal for every app is tedious
-- stopping apps cleanly can be unreliable
+- opening a terminal for every project is tedious
+- stopping projects cleanly can be unreliable
 - failed starts require digging through logs
 
 AppShelf centralizes discovery, launching, stopping, and basic app metadata.
@@ -68,6 +70,7 @@ AppShelf centralizes discovery, launching, stopping, and basic app metadata.
 ### Explicitly Out of Scope for MVP
 
 - Docker Compose support.
+- Package manager or runtime installation.
 - Git branch/status integration.
 - Built-in terminal.
 - Multi-service orchestration.
@@ -104,8 +107,8 @@ MVP discovery behavior:
 
 Future discovery behavior:
 
-- Detect likely web apps without `.localapp.json`.
-- Put likely apps into an "Unregistered" area.
+- Detect likely localhost projects without `.localapp.json`.
+- Put likely projects into an "Unregistered" area.
 - Let the user register them from the UI.
 
 ## Manual Registration
@@ -281,7 +284,7 @@ MVP settings:
 
 The preferred agent workflow is:
 
-1. User asks an agent to create or modify a local web app.
+1. User asks an agent to create or modify a localhost project.
 2. Agent writes or updates `.localapp.json`.
 3. If image generation is available, the agent may create `.localapp/icon.png` and reference it from the manifest.
 4. AppShelf scans the configured folder.
@@ -353,7 +356,7 @@ The manifest can become outdated if startup commands change. Manual editing and 
 
 ### Scope Creep
 
-The product can easily grow into a local platform, agent control plane, or Docker alternative. MVP should stay focused on one-click local web app launching.
+The product can easily grow into a local platform, agent control plane, package manager, or Docker alternative. MVP should stay focused on one-click localhost project launching.
 
 ## Open Product Questions
 

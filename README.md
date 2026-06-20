@@ -1,14 +1,16 @@
 # AppShelf
 
-AppShelf is a Windows desktop app for managing local web apps through a visual app library.
+AppShelf is a Windows desktop app for managing localhost projects through a visual library.
 
-It is designed for an AI-heavy local development workflow: agents can generate many localhost web apps, but the human should not need to remember startup commands, reopen terminal sessions, or search old chat logs just to run them again.
+It is designed for an AI-heavy local development workflow: agents can generate many localhost projects, but the human should not need to remember startup commands, reopen terminal sessions, or search old chat logs just to run them again.
+
+Those projects can be web apps, personal sites, blogs, docs sites, dashboards, games, demos, or local tools. The common requirement is simple: a local command starts something useful at a localhost URL.
 
 Status: draft v0, Windows-only, not packaged yet.
 
 ## What It Does
 
-- Discover local web apps from user-approved folders by reading `.localapp.json`.
+- Discover localhost projects from user-approved folders by reading `.localapp.json`.
 - Manually register apps when no manifest exists.
 - Start, stop, restart, and open apps from a desktop GUI.
 - Show app status, logs, startup errors, ports, process IDs, and project paths.
@@ -19,7 +21,7 @@ Status: draft v0, Windows-only, not packaged yet.
 
 AppShelf is not an IDE, Docker replacement, PM2 GUI, package manager, remote deployment tool, or agent control plane.
 
-The v0 goal is narrow: make local web apps easy to find and start.
+The v0 goal is narrow: make localhost projects easy to find and start.
 
 ## Safety Model
 
@@ -103,4 +105,3 @@ npm run build
 ## License
 
 MIT. See [LICENSE](LICENSE).
-

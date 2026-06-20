@@ -1,11 +1,11 @@
 ---
 name: localapp-register
-description: Register a local web app project for AppShelf by creating or updating .localapp.json. Use when the user asks to add AppShelf registration, register a project for AppShelf, make a local web app discoverable by AppShelf, or prepare an agent-generated web app for one-click launch in AppShelf.
+description: Register a localhost project for AppShelf by creating or updating .localapp.json. Use when the user asks to add AppShelf registration, register a project for AppShelf, make a local project discoverable by AppShelf, or prepare an agent-generated localhost project for one-click launch in AppShelf.
 ---
 
 # localapp-register
 
-Use this skill to register the current local web app project for AppShelf.
+Use this skill to register the current localhost project for AppShelf.
 
 ## Required Reading
 
