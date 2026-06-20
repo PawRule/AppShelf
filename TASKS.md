@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7 implemented. Awaiting manual verification.
+Status: Phase 7 adjusted after manual UX review. Awaiting verification.
 
 ## MVP Baseline
 
@@ -188,17 +188,10 @@ Goal: broaden AppShelf's product language from only "web apps" to localhost proj
 
 Goal: let users organize the AppShelf library like a shelf while preserving predictable non-manual sort modes.
 
-- [x] Add a persistent sort mode setting: custom, added order, name A-Z, and name Z-A.
-- [x] Add a user-level custom library order model such as `libraryOrder: string[]` without writing ordering data into `.localapp.json`.
-- [x] Preserve custom order when switching to other sort modes and back.
-- [x] Append newly discovered apps to the end of custom order.
-- [x] Decide how restored removed apps re-enter custom order, likely append to the end.
+- [x] Add a persistent sort mode setting: added order, name A-Z, and name Z-A.
+- [x] Remove the first-pass custom drag ordering because the card interaction did not meet the product quality bar.
 - [x] Ensure search filters the current sorted list without changing saved order.
 - [x] Add a compact sorting control in the toolbar.
-- [x] Show drag handles only when sort mode is custom.
-- [x] Support drag reordering in card view without conflicting with Start, Open, Remove, or copy actions.
-- [x] Support drag reordering in list view with a row-level handle.
-- [x] Persist reordered custom order immediately after a drop.
 - [x] Re-run typecheck/build for card/list sorting behavior.
 - [ ] Manually verify card/list sorting behavior.
 
@@ -218,6 +211,7 @@ Goal: let users paste a Git repository URL, clone it into a chosen local folder,
 ## Later / Deferred
 
 - [ ] Consider smart registration from a project folder: infer candidate commands, run a test launch, and write `.localapp.json` only after user confirmation.
+- [ ] Revisit custom drag sorting only with a polished tile-style drag interaction, likely using a mature DnD library.
 - [ ] Re-evaluate packaging after Phase 6.5, Phase 7, and Phase 8 stabilize.
 - [ ] Unregistered project detection.
 - [ ] Git status.

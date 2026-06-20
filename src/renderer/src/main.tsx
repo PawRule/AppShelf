@@ -14,7 +14,6 @@ import {
   RotateCcw,
   ExternalLink,
   Copy,
-  GripVertical,
   Pencil,
   Terminal,
   Trash2,
@@ -65,8 +64,7 @@ function fallbackRegistry(): UserRegistry {
       language: "zh",
       theme: "light",
       viewMode: "cards",
-      sortMode: "custom",
-      libraryOrder: [],
+      sortMode: "added",
       autoOpenBrowser: true,
       closeBehavior: "ask",
       scanFolders: []
@@ -86,7 +84,6 @@ function App(): React.JSX.Element {
   const [editingApp, setEditingApp] = useState<AppRecord | undefined>();
   const [pendingTrust, setPendingTrust] = useState<Extract<StartResult, { needsTrust: true }> | undefined>();
   const [pendingConfirm, setPendingConfirm] = useState<PendingConfirmDialog | undefined>();
-  const [draggedId, setDraggedId] = useState<string | undefined>();
   const [logs, setLogs] = useState<Record<string, LogEntry[]>>({});
 
   const t = (key: MessageKey) => messages[registry.settings.language][key];
@@ -131,7 +128,7 @@ function App(): React.JSX.Element {
 
   const filteredApps = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    const sortedApps = sortApps(registry.apps, registry.settings.sortMode, registry.settings.libraryOrder);
+    const sortedApps = sortApps(registry.apps, registry.settings.sortMode);
     if (!normalized) return sortedApps;
 
     return sortedApps.filter((app) =>
@@ -139,7 +136,7 @@ function App(): React.JSX.Element {
         .filter(Boolean)
         .some((value) => value!.toLowerCase().includes(normalized))
     );
-  }, [query, registry.apps, registry.settings.libraryOrder, registry.settings.sortMode]);
+  }, [query, registry.apps, registry.settings.sortMode]);
 
   const selectedApp = registry.apps.find((app) => app.id === selectedId) ?? filteredApps[0];
 
@@ -227,22 +224,6 @@ function App(): React.JSX.Element {
     setRegistry(next);
   }
 
-  async function reorderApps(targetId: string): Promise<void> {
-    if (!draggedId || registry.settings.sortMode !== "custom") return;
-
-    const nextOrder = moveInOrder(
-      registry.settings.libraryOrder,
-      filteredApps.map((app) => app.id),
-      draggedId,
-      targetId
-    );
-
-    setDraggedId(undefined);
-    if (nextOrder.join("\n") === registry.settings.libraryOrder.join("\n")) return;
-
-    await updateSettings({ libraryOrder: nextOrder });
-  }
-
   function requestConfirm(request: ConfirmDialogRequest): Promise<boolean> {
     return new Promise((resolve) => {
       setPendingConfirm({ ...request, resolve });
@@ -293,7 +274,6 @@ function App(): React.JSX.Element {
               void updateSettings({ sortMode: event.target.value as UserRegistry["settings"]["sortMode"] })
             }
           >
-            <option value="custom">{t("sortCustom")}</option>
             <option value="added">{t("sortAdded")}</option>
             <option value="nameAsc">{t("sortNameAsc")}</option>
             <option value="nameDesc">{t("sortNameDesc")}</option>
@@ -334,14 +314,7 @@ function App(): React.JSX.Element {
                   app={app}
                   selected={app.id === selectedApp?.id}
                   t={t}
-                  draggable={registry.settings.sortMode === "custom"}
                   onSelect={() => setSelectedId(app.id)}
-                  onDragStart={() => setDraggedId(app.id)}
-                  onDragOver={(event) => {
-                    if (registry.settings.sortMode !== "custom") return;
-                    event.preventDefault();
-                  }}
-                  onDrop={() => void reorderApps(app.id)}
                   onStart={() => void startApp(app)}
                   onStop={() => void stopApp(app)}
                   onOpen={() => void window.appShelf.openUrl(app.id)}
@@ -354,14 +327,7 @@ function App(): React.JSX.Element {
               apps={filteredApps}
               selectedId={selectedApp?.id}
               t={t}
-              draggable={registry.settings.sortMode === "custom"}
               onSelect={setSelectedId}
-              onDragStart={setDraggedId}
-              onDragOver={(event) => {
-                if (registry.settings.sortMode !== "custom") return;
-                event.preventDefault();
-              }}
-              onDrop={(appId) => void reorderApps(appId)}
               onStart={(app) => void startApp(app)}
               onStop={(app) => void stopApp(app)}
               onOpen={(app) => void window.appShelf.openUrl(app.id)}
@@ -513,45 +479,18 @@ function CopyableAddress({
   );
 }
 
-function sortApps(apps: AppRecord[], sortMode: LibrarySortMode, libraryOrder: string[]): AppRecord[] {
+function sortApps(apps: AppRecord[], sortMode: LibrarySortMode): AppRecord[] {
   if (sortMode === "added") return apps;
 
-  if (sortMode === "nameAsc" || sortMode === "nameDesc") {
-    const direction = sortMode === "nameAsc" ? 1 : -1;
-    return [...apps].sort((a, b) => direction * a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
-  }
-
-  const indexById = new Map(libraryOrder.map((id, index) => [id, index]));
-  return [...apps].sort((a, b) => {
-    const aIndex = indexById.get(a.id) ?? Number.MAX_SAFE_INTEGER;
-    const bIndex = indexById.get(b.id) ?? Number.MAX_SAFE_INTEGER;
-    if (aIndex !== bIndex) return aIndex - bIndex;
-    return apps.indexOf(a) - apps.indexOf(b);
-  });
-}
-
-function moveInOrder(currentOrder: string[], visibleIds: string[], draggedId: string, targetId: string): string[] {
-  if (draggedId === targetId) return currentOrder;
-
-  const knownIds = new Set(currentOrder);
-  const fullOrder = [...currentOrder, ...visibleIds.filter((id) => !knownIds.has(id))];
-  const withoutDragged = fullOrder.filter((id) => id !== draggedId);
-  const targetIndex = withoutDragged.indexOf(targetId);
-
-  if (targetIndex === -1) return currentOrder;
-
-  return [...withoutDragged.slice(0, targetIndex), draggedId, ...withoutDragged.slice(targetIndex)];
+  const direction = sortMode === "nameAsc" ? 1 : -1;
+  return [...apps].sort((a, b) => direction * a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 }
 
 function AppCard({
   app,
   selected,
   t,
-  draggable,
   onSelect,
-  onDragStart,
-  onDragOver,
-  onDrop,
   onStart,
   onStop,
   onOpen,
@@ -560,11 +499,7 @@ function AppCard({
   app: AppRecord;
   selected: boolean;
   t: (key: MessageKey) => string;
-  draggable: boolean;
   onSelect: () => void;
-  onDragStart: () => void;
-  onDragOver: (event: React.DragEvent) => void;
-  onDrop: () => void;
   onStart: () => void;
   onStop: () => void;
   onOpen: () => void;
@@ -575,24 +510,9 @@ function AppCard({
   const urlText = app.url ?? app.command;
 
   return (
-    <article className={`app-card ${selected ? "selected" : ""}`} onClick={onSelect} onDragOver={onDragOver} onDrop={onDrop}>
+    <article className={`app-card ${selected ? "selected" : ""}`} onClick={onSelect}>
       <div className="card-head">
         <AppIcon app={app} />
-        {draggable ? (
-          <button
-            className="drag-handle"
-            draggable
-            onClick={(event) => event.stopPropagation()}
-            onDragStart={(event) => {
-              event.stopPropagation();
-              event.dataTransfer.effectAllowed = "move";
-              onDragStart();
-            }}
-            title={t("dragToReorder")}
-          >
-            <GripVertical size={16} />
-          </button>
-        ) : null}
         <span className={`status-pill ${statusClass[app.status]}`}>{t(app.status)}</span>
       </div>
       <h2>{app.name}</h2>
@@ -629,11 +549,7 @@ function AppList({
   apps,
   selectedId,
   t,
-  draggable,
   onSelect,
-  onDragStart,
-  onDragOver,
-  onDrop,
   onStart,
   onStop,
   onOpen,
@@ -642,11 +558,7 @@ function AppList({
   apps: AppRecord[];
   selectedId?: string;
   t: (key: MessageKey) => string;
-  draggable: boolean;
   onSelect: (id: string) => void;
-  onDragStart: (id: string) => void;
-  onDragOver: (event: React.DragEvent) => void;
-  onDrop: (id: string) => void;
   onStart: (app: AppRecord) => void;
   onStop: (app: AppRecord) => void;
   onOpen: (app: AppRecord) => void;
@@ -663,34 +575,17 @@ function AppList({
 
         return (
           <article
-            className={`app-row ${draggable ? "draggable" : ""} ${app.id === selectedId ? "selected" : ""}`}
+            className={`app-row ${app.id === selectedId ? "selected" : ""}`}
             key={app.id}
             role="button"
             tabIndex={0}
             onClick={() => onSelect(app.id)}
-            onDragOver={onDragOver}
-            onDrop={() => onDrop(app.id)}
             onKeyDown={(event) => {
               if (event.key !== "Enter" && event.key !== " ") return;
               event.preventDefault();
               onSelect(app.id);
             }}
           >
-            {draggable ? (
-              <button
-                className="drag-handle row-drag-handle"
-                draggable
-                onClick={(event) => event.stopPropagation()}
-                onDragStart={(event) => {
-                  event.stopPropagation();
-                  event.dataTransfer.effectAllowed = "move";
-                  onDragStart(app.id);
-                }}
-                title={t("dragToReorder")}
-              >
-                <GripVertical size={16} />
-              </button>
-            ) : null}
             <AppIcon app={app} />
             <span className="row-main">
               <strong>{app.name}</strong>

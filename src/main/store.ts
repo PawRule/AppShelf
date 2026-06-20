@@ -7,8 +7,7 @@ const defaultSettings: UserSettings = {
   language: "zh",
   theme: "light",
   viewMode: "cards",
-  sortMode: "custom",
-  libraryOrder: [],
+  sortMode: "added",
   autoOpenBrowser: true,
   closeBehavior: "ask",
   scanFolders: []
@@ -20,6 +19,14 @@ export function getRegistryPath(): string {
 
 function getLegacyRegistryPath(): string {
   return join(app.getPath("appData"), "webAppStarter", "registry.json");
+}
+
+function normalizeSettings(settings: Partial<UserSettings> | undefined): UserSettings {
+  const next = { ...defaultSettings, ...settings };
+  if (next.sortMode !== "added" && next.sortMode !== "nameAsc" && next.sortMode !== "nameDesc") {
+    next.sortMode = "added";
+  }
+  return next;
 }
 
 export function createDefaultRegistry(): UserRegistry {
@@ -49,7 +56,7 @@ export function loadRegistry(): UserRegistry {
     const parsed = JSON.parse(readFileSync(registryPath, "utf8")) as UserRegistry;
     return {
       version: 0,
-      settings: { ...defaultSettings, ...parsed.settings },
+      settings: normalizeSettings(parsed.settings),
       apps: Array.isArray(parsed.apps) ? parsed.apps : [],
       hiddenManifestPaths: Array.isArray(parsed.hiddenManifestPaths) ? parsed.hiddenManifestPaths : [],
       lastScan: parsed.lastScan

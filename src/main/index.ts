@@ -19,7 +19,6 @@ import {
   removeAppFromLibrary,
   removeAppsFromScanFolder,
   restoreHiddenManifest as restoreLibraryHiddenManifest,
-  syncLibraryOrder,
   updateApp as updateLibraryApp
 } from "./appLibrary";
 import { waitForUrl } from "./health";
@@ -298,7 +297,6 @@ function registerIpc(): void {
 
   ipcMain.handle("settings:update", (_event, settings: Partial<UserSettings>) => {
     registry.settings = { ...registry.settings, ...settings };
-    registry = syncLibraryOrder(registry);
     saveRegistry(registry);
     return registry;
   });
@@ -372,7 +370,6 @@ function registerIpc(): void {
     const record = await createManualApp(input);
     registry.apps = registry.apps.filter((appRecord) => appRecord.id !== record.id);
     registry.apps.push(record);
-    registry = syncLibraryOrder(registry);
     saveRegistry(registry);
     return { ok: true, registry, appId: record.id };
   });
@@ -446,7 +443,7 @@ function registerIpc(): void {
 }
 
 app.whenReady().then(async () => {
-  registry = syncLibraryOrder(loadRegistry());
+  registry = loadRegistry();
   registerIconProtocol();
   registerIpc();
   await createWindow();
