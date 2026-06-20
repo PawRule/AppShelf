@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7 complete.
+Status: Phase 7.5 planned.
 
 ## MVP Baseline
 
@@ -194,6 +194,18 @@ Goal: let users organize the AppShelf library like a shelf while preserving pred
 - [x] Add a compact sorting control in the toolbar.
 - [x] Re-run typecheck/build for card/list sorting behavior.
 - [x] Manually verify card/list sorting behavior.
+
+## Phase 7.5: Stability Pass
+
+Goal: stabilize the current AppShelf feature set before starting Git repo import or other larger feature work.
+
+- [ ] Review current README, SPEC, TASKS, and agent registration docs for consistency with implemented behavior.
+- [ ] Review registry compatibility paths, including legacy `webAppStarter` registry migration and removed `custom` sort mode normalization.
+- [ ] Review main-process boundaries after recent import/sorting changes for obvious shallow-module or ownership drift.
+- [ ] Review renderer UI for recent polish regressions: Add app import flow, sort dropdown, card/list layout, dark mode, and settings modal.
+- [ ] Run typecheck/build.
+- [ ] Decide whether any small fixes are needed before Phase 8.
+- [ ] Manually smoke test the stable baseline.
 
 ## Phase 8: Git Repo Import
 
