@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7 adjusted after manual UX review. Awaiting verification.
+Status: Phase 7 complete.
 
 ## MVP Baseline
 
@@ -193,7 +193,7 @@ Goal: let users organize the AppShelf library like a shelf while preserving pred
 - [x] Ensure search filters the current sorted list without changing saved order.
 - [x] Add a compact sorting control in the toolbar.
 - [x] Re-run typecheck/build for card/list sorting behavior.
-- [ ] Manually verify card/list sorting behavior.
+- [x] Manually verify card/list sorting behavior.
 
 ## Phase 8: Git Repo Import
 
