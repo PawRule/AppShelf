@@ -11,8 +11,8 @@ Status: draft v0, Windows-only, not packaged yet.
 ## What It Does
 
 - Discover localhost projects from user-approved folders by reading `.localapp.json`.
-- Manually register apps when no manifest exists.
-- Start, stop, restart, and open apps from a desktop GUI.
+- Manually register projects when no manifest exists.
+- Start, stop, restart, and open projects from a desktop GUI.
 - Show app status, logs, startup errors, ports, process IDs, and project paths.
 - Keep local preferences in the AppShelf user registry.
 - Support Chinese and English UI.

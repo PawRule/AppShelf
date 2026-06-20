@@ -1094,7 +1094,6 @@ function ManualAppDialog({
   const [registrationPromptCopied, setRegistrationPromptCopied] = useState(false);
 
   const previewHiddenApps = importPreview?.apps.filter((app) => isHiddenManifest(registry, app)) ?? [];
-  const previewDuplicateApps = importPreview?.apps.filter((app) => findExistingApp(registry, app)) ?? [];
   const previewNewApps =
     importPreview?.apps.filter((app) => !isHiddenManifest(registry, app) && !findExistingApp(registry, app)) ?? [];
 
@@ -1174,7 +1173,12 @@ function ManualAppDialog({
     }
 
     if (result.reason === "removedAppExists") {
-      const shouldRestore = window.confirm(`${t("restoreRemovedAppConfirm")}\n\n${result.manifestPath}`);
+      const shouldRestore = await onConfirm({
+        title: t("removedApps"),
+        body: t("restoreRemovedAppConfirm"),
+        details: [{ label: t("manifestPath"), value: result.manifestPath }],
+        confirmLabel: t("restore")
+      });
       if (!shouldRestore) return;
 
       const next = await window.appShelf.restoreHiddenManifest(result.manifestPath);

@@ -22,11 +22,21 @@ function getLegacyRegistryPath(): string {
 }
 
 function normalizeSettings(settings: Partial<UserSettings> | undefined): UserSettings {
-  const next = { ...defaultSettings, ...settings };
-  if (next.sortMode !== "added" && next.sortMode !== "nameAsc" && next.sortMode !== "nameDesc") {
-    next.sortMode = "added";
-  }
-  return next;
+  const sortMode = settings?.sortMode;
+
+  return {
+    language: settings?.language === "en" ? "en" : defaultSettings.language,
+    theme: settings?.theme === "dark" ? "dark" : defaultSettings.theme,
+    viewMode: settings?.viewMode === "list" ? "list" : defaultSettings.viewMode,
+    sortMode: sortMode === "nameAsc" || sortMode === "nameDesc" ? sortMode : defaultSettings.sortMode,
+    autoOpenBrowser:
+      typeof settings?.autoOpenBrowser === "boolean" ? settings.autoOpenBrowser : defaultSettings.autoOpenBrowser,
+    closeBehavior:
+      settings?.closeBehavior === "tray" || settings?.closeBehavior === "exit"
+        ? settings.closeBehavior
+        : defaultSettings.closeBehavior,
+    scanFolders: Array.isArray(settings?.scanFolders) ? settings.scanFolders.filter((folder) => typeof folder === "string") : []
+  };
 }
 
 export function createDefaultRegistry(): UserRegistry {

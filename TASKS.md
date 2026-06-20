@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7.5 planned.
+Status: Phase 7.5 awaiting manual smoke test.
 
 ## MVP Baseline
 
@@ -199,12 +199,12 @@ Goal: let users organize the AppShelf library like a shelf while preserving pred
 
 Goal: stabilize the current AppShelf feature set before starting Git repo import or other larger feature work.
 
-- [ ] Review current README, SPEC, TASKS, and agent registration docs for consistency with implemented behavior.
-- [ ] Review registry compatibility paths, including legacy `webAppStarter` registry migration and removed `custom` sort mode normalization.
-- [ ] Review main-process boundaries after recent import/sorting changes for obvious shallow-module or ownership drift.
-- [ ] Review renderer UI for recent polish regressions: Add app import flow, sort dropdown, card/list layout, dark mode, and settings modal.
-- [ ] Run typecheck/build.
-- [ ] Decide whether any small fixes are needed before Phase 8.
+- [x] Review current README, SPEC, TASKS, and agent registration docs for consistency with implemented behavior.
+- [x] Review registry compatibility paths, including legacy `webAppStarter` registry migration and removed `custom` sort mode normalization.
+- [x] Review main-process boundaries after recent import/sorting changes for obvious shallow-module or ownership drift.
+- [x] Review renderer UI for recent polish regressions: Add app import flow, sort dropdown, card/list layout, dark mode, and settings modal.
+- [x] Run typecheck/build.
+- [x] Decide whether any small fixes are needed before Phase 8.
 - [ ] Manually smoke test the stable baseline.
 
 ## Phase 8: Git Repo Import
@@ -224,7 +224,7 @@ Goal: let users paste a Git repository URL, clone it into a chosen local folder,
 
 - [ ] Consider smart registration from a project folder: infer candidate commands, run a test launch, and write `.localapp.json` only after user confirmation.
 - [ ] Revisit custom drag sorting only with a polished tile-style drag interaction, likely using a mature DnD library.
-- [ ] Re-evaluate packaging after Phase 6.5, Phase 7, and Phase 8 stabilize.
+- [ ] Re-evaluate packaging after Phase 7.5 and Phase 8 stabilize.
 - [ ] Unregistered project detection.
 - [ ] Git status.
 - [ ] App screenshots.
