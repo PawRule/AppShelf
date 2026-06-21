@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7.5 awaiting manual smoke test.
+Status: Phase 7.5 complete.
 
 ## MVP Baseline
 
@@ -205,7 +205,7 @@ Goal: stabilize the current AppShelf feature set before starting Git repo import
 - [x] Review renderer UI for recent polish regressions: Add app import flow, sort dropdown, card/list layout, dark mode, and settings modal.
 - [x] Run typecheck/build.
 - [x] Decide whether any small fixes are needed before Phase 8.
-- [ ] Manually smoke test the stable baseline.
+- [x] Manually smoke test the stable baseline.
 
 ## Phase 8: Git Repo Import
 
