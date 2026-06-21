@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 7.5 complete.
+Status: Phase 8 tasks 1-3 complete; packaging decision pending.
 
 ## MVP Baseline
 
@@ -147,7 +147,7 @@ Status: Phase 7.5 complete.
 
 Goal: make AppShelf's registration story clear, agent-friendly, and not tied to one specific agent runtime.
 
-- [x] Review and tighten `docs/AGENT_REGISTER_LOCALAPP.md` based on real Mahjong Pro registration feedback.
+- [x] Review and tighten `docs/AGENT_REGISTER_LOCALAPP.md` based on real local project registration feedback.
 - [x] Define `.localapp.json` v0 required fields, optional fields, path rules, and examples in a concise reference section.
 - [x] Clarify AppShelf's recommended icon convention: `.localapp/icon.png`, generated PNG preferred, SVG fallback allowed.
 - [x] Decide to keep `localapp-register` as a repo-local skill draft for now instead of installing it into the user's Codex skills directory.
@@ -207,24 +207,24 @@ Goal: stabilize the current AppShelf feature set before starting Git repo import
 - [x] Decide whether any small fixes are needed before Phase 8.
 - [x] Manually smoke test the stable baseline.
 
-## Phase 8: Git Repo Import
+## Phase 8: Public Repo Readiness and First Windows Build Review
 
-Goal: let users paste a Git repository URL, clone it into a chosen local folder, then bring it into AppShelf without automatically trusting or running local commands.
+Goal: prepare AppShelf for a future public repository and decide whether to create a first Windows build before publishing.
 
-- [ ] Design Git repo import UI: repo URL, destination folder, project folder preview, and confirmation step.
-- [ ] Define import status states: idle, cloning, clone failed, cloned but unregistered, registered.
-- [ ] Define duplicate folder and existing repo behavior before implementation.
-- [ ] Implement clone flow only after safety and destination-folder rules are clear.
-- [ ] Scan cloned projects for `.localapp.json`.
-- [ ] If no `.localapp.json` is found, offer the Phase 6 registration prompt handoff instead of guessing silently.
-- [ ] If `.localapp.json` is found, add the app through the normal scan/registration path.
-- [ ] Keep command execution behind the existing command trust confirmation.
+- [x] Review committed files for private projects, local paths, old product names, stale screenshots, credentials, and personal data.
+- [x] Keep `examples/hello-localapp` as a deliberate sample project and document it clearly.
+- [x] Review project structure and public docs for a credible first public repository.
+- [ ] Decide whether the repository should be public before or after a first Windows package is available.
+- [ ] If packaging is approved, choose a lightweight Windows packaging path.
+- [ ] If packaging is approved, produce and test one unsigned local Windows build.
+- [ ] Update README with the chosen public release status: source-only, preview build, or release artifact.
 
 ## Later / Deferred
 
 - [ ] Consider smart registration from a project folder: infer candidate commands, run a test launch, and write `.localapp.json` only after user confirmation.
 - [ ] Revisit custom drag sorting only with a polished tile-style drag interaction, likely using a mature DnD library.
-- [ ] Re-evaluate packaging after Phase 7.5 and Phase 8 stabilize.
+- [ ] Git repo import: paste a repository URL, clone into a chosen folder, then register through the normal AppShelf import flow without automatically trusting or running commands.
+- [ ] Re-evaluate packaging after Phase 8 public-readiness cleanup.
 - [ ] Unregistered project detection.
 - [ ] Git status.
 - [ ] App screenshots.

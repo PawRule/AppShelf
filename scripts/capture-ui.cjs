@@ -5,12 +5,15 @@ const path = require("node:path");
 async function capture() {
   const width = Number(process.env.CAPTURE_WIDTH ?? 1440);
   const height = Number(process.env.CAPTURE_HEIGHT ?? 900);
+  const sampleProjectPath = path.resolve(process.cwd(), "examples", "hello-localapp");
 
   const registry = {
     version: 0,
     settings: {
       language: "zh",
+      theme: "light",
       viewMode: "cards",
+      sortMode: "added",
       autoOpenBrowser: true,
       closeBehavior: "ask",
       scanFolders: []
@@ -23,9 +26,9 @@ async function capture() {
         command: "node server.js",
         url: "http://localhost:4321",
         port: 4321,
-        projectPath: "D:\\webAppStarter\\examples\\hello-localapp",
-        manifestPath: "D:\\webAppStarter\\examples\\hello-localapp\\.localapp.json",
-        workingDirectory: "D:\\webAppStarter\\examples\\hello-localapp",
+        projectPath: sampleProjectPath,
+        manifestPath: path.join(sampleProjectPath, ".localapp.json"),
+        workingDirectory: sampleProjectPath,
         source: "manifest",
         status: "stopped"
       }

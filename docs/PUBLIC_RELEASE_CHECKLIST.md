@@ -6,14 +6,14 @@ This checklist prepares the private AppShelf repository for a future public rele
 
 ## Required Before Public Release
 
-- [ ] README describes positioning, setup, current limitations, safety model, and `.localapp.json`.
-- [ ] LICENSE is present and matches `package.json`.
-- [ ] `.gitignore` excludes dependencies, build output, environment files, logs, and local AppShelf registry data.
-- [ ] Issue templates are present.
-- [ ] Security notes are present.
-- [ ] Screenshots use sample apps only.
-- [ ] No private local paths, tokens, real user data, or private project names appear in screenshots intended for public docs.
-- [ ] No `.env`, registry, log, credential, or token files are committed.
+- [x] README describes positioning, setup, current limitations, safety model, and `.localapp.json`.
+- [x] LICENSE is present and matches `package.json`.
+- [x] `.gitignore` excludes dependencies, build output, environment files, logs, and local AppShelf registry data.
+- [x] Issue templates are present.
+- [x] Security notes are present.
+- [ ] Public screenshots use sample apps only.
+- [x] No private local paths, tokens, real user data, or private project names appear in committed public screenshots.
+- [x] No `.env`, registry, log, credential, or token files are committed.
 - [ ] Build and typecheck pass.
 
 ## Screenshot Policy
@@ -34,12 +34,7 @@ Preferred screenshot source:
 - `examples/hello-localapp`
 - synthetic demo projects created only for documentation
 
-Current internal design screenshots under `docs/design/` are not automatically public-ready:
-
-- `docs/design/current-renderer.png` shows a local development path.
-- `docs/design/main-screen-concept.png` uses the old webAppStarter name and example local user paths.
-
-Regenerate public screenshots before publishing the repository or using screenshots in a public README.
+Do not commit internal design screenshots unless they are deliberately sanitized. Regenerate public screenshots before publishing the repository or using screenshots in a public README.
 
 ## Secrets Audit
 
@@ -50,6 +45,15 @@ rg -n -i "(token|secret|password|api[_-]?key|access[_-]?token|private key|author
 ```
 
 Manual review is still required. Automated search can miss secrets and can produce false positives.
+
+## Phase 8 Review Notes
+
+- The committed example project is intentional: `examples/hello-localapp`.
+- No real user test project, user registry, `.env`, log, credential, or token file is committed.
+- Stale internal design screenshots were removed from the repository. Public screenshots should be regenerated from sample projects.
+- Remaining `webAppStarter` references are historical task notes or the legacy registry migration path.
+- Current source structure is acceptable for a first public repository: Electron bootstrap stays in `src/main/index.ts`, app library behavior lives in `src/main/appLibrary.ts`, registry persistence is isolated in `src/main/store.ts`, process handling is isolated in `src/main/processManager.ts`, shared contracts live in `src/shared/types.ts`, and the renderer remains the main area to split only when future UI work justifies it.
+- The repository is source-ready after build/typecheck pass, but release readiness still depends on the packaging decision.
 
 ## Release Notes Checklist
 

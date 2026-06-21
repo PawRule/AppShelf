@@ -94,6 +94,10 @@ Build:
 npm run build
 ```
 
+## Sample Project
+
+The repository includes `examples/hello-localapp` as a deliberate sample project. It is a tiny local Node server with a `.localapp.json` manifest, useful for testing AppShelf's scan, start, stop, logs, and open actions without using a private project.
+
 ## Project Docs
 
 - [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md)
