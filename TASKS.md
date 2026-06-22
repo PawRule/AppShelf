@@ -1,6 +1,6 @@
 # AppShelf Tasks
 
-Status: Phase 8 tasks 1-3 complete; packaging decision pending.
+Status: Phase 8 local unsigned Windows build feasibility verified; public release strategy pending.
 
 ## MVP Baseline
 
@@ -215,8 +215,8 @@ Goal: prepare AppShelf for a future public repository and decide whether to crea
 - [x] Keep `examples/hello-localapp` as a deliberate sample project and document it clearly.
 - [x] Review project structure and public docs for a credible first public repository.
 - [ ] Decide whether the repository should be public before or after a first Windows package is available.
-- [ ] If packaging is approved, choose a lightweight Windows packaging path.
-- [ ] If packaging is approved, produce and test one unsigned local Windows build.
+- [x] If packaging is approved, choose a lightweight Windows packaging path.
+- [x] If packaging is approved, produce and test one unsigned local Windows build.
 - [ ] Update README with the chosen public release status: source-only, preview build, or release artifact.
 
 ## Later / Deferred

@@ -94,6 +94,14 @@ Build:
 npm run build
 ```
 
+Create a local unsigned Windows unpacked build:
+
+```powershell
+npm run pack:win
+```
+
+This writes a testable desktop build to `release/win-unpacked/AppShelf.exe`. The output is ignored by Git and is not a signed public release artifact.
+
 ## Sample Project
 
 The repository includes `examples/hello-localapp` as a deliberate sample project. It is a tiny local Node server with a `.localapp.json` manifest, useful for testing AppShelf's scan, start, stop, logs, and open actions without using a private project.

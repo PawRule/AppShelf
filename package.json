@@ -15,22 +15,46 @@
   "scripts": {
     "dev": "electron-vite dev",
     "build": "tsc --noEmit && electron-vite build",
+    "pack:win": "npm run build && electron-builder --win dir --x64",
     "preview": "electron-vite preview",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@vitejs/plugin-react": "^5.1.1",
-    "electron-vite": "^4.0.0",
-    "lucide-react": "^0.561.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
     "electron": "^39.2.7",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^4.0.0",
+    "lucide-react": "^0.561.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "typescript": "^5.9.3",
     "vite": "^7.2.7"
+  },
+  "build": {
+    "appId": "dev.local.appshelf",
+    "productName": "AppShelf",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**",
+      "assets/**",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/app-icon/appshelf-icon.ico",
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
   }
 }
