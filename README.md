@@ -6,7 +6,9 @@ It is designed for an AI-heavy local development workflow: agents can generate m
 
 Those projects can be web apps, personal sites, blogs, docs sites, dashboards, games, demos, or local tools. The common requirement is simple: a local command starts something useful at a localhost URL.
 
-Status: draft v0, Windows-only, not packaged yet.
+Status: early preview, Windows-only. The repository is source-first; a local unsigned Windows unpacked build can be generated, but there is no signed public installer yet.
+
+![AppShelf main screen](docs/images/appshelf-main.png)
 
 ## What It Does
 
@@ -22,6 +24,19 @@ Status: draft v0, Windows-only, not packaged yet.
 AppShelf is not an IDE, Docker replacement, PM2 GUI, package manager, remote deployment tool, or agent control plane.
 
 The v0 goal is narrow: make localhost projects easy to find and start.
+
+## Who It Is For
+
+AppShelf is for people who keep many local projects around, especially projects generated or maintained with AI agents. It is useful when the project already runs locally, but the start command, port, or folder is easy to forget.
+
+## Current Limitations
+
+- Windows only.
+- No signed installer yet.
+- No environment installation or dependency repair.
+- No Git repository cloning/import flow.
+- No Docker Compose or remote deployment support.
+- `.localapp.json` is a draft local convention, not a finalized standard.
 
 ## Safety Model
 
@@ -92,6 +107,12 @@ Build:
 
 ```powershell
 npm run build
+```
+
+Capture a sanitized README screenshot:
+
+```powershell
+npm run capture:ui
 ```
 
 Create a local unsigned Windows unpacked build:

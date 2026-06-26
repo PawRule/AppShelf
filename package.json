@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "electron-vite dev",
     "build": "tsc --noEmit && electron-vite build",
+    "capture:ui": "npm run build && electron scripts/capture-ui.cjs",
     "pack:win": "npm run build && electron-builder --win dir --x64",
     "preview": "electron-vite preview",
     "typecheck": "tsc --noEmit"

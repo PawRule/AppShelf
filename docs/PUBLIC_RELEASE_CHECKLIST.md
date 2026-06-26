@@ -11,7 +11,7 @@ This checklist prepares the private AppShelf repository for a future public rele
 - [x] `.gitignore` excludes dependencies, build output, environment files, logs, and local AppShelf registry data.
 - [x] Issue templates are present.
 - [x] Security notes are present.
-- [ ] Public screenshots use sample apps only.
+- [x] Public screenshots use sample apps only.
 - [x] No private local paths, tokens, real user data, or private project names appear in committed public screenshots.
 - [x] No `.env`, registry, log, credential, or token files are committed.
 - [x] Build and typecheck pass.
@@ -54,7 +54,7 @@ Manual review is still required. Automated search can miss secrets and can produ
 - Remaining `webAppStarter` references are historical task notes or the legacy registry migration path.
 - Current source structure is acceptable for a first public repository: Electron bootstrap stays in `src/main/index.ts`, app library behavior lives in `src/main/appLibrary.ts`, registry persistence is isolated in `src/main/store.ts`, process handling is isolated in `src/main/processManager.ts`, shared contracts live in `src/shared/types.ts`, and the renderer remains the main area to split only when future UI work justifies it.
 - A local unsigned Windows unpacked build is feasible with `npm run pack:win`; the generated `release/win-unpacked/AppShelf.exe` started successfully in a smoke test.
-- The repository is source-ready, but release readiness still depends on whether a signed installer, unsigned preview artifact, or source-only public launch is preferred.
+- Public launch strategy: source-first public repository with documented local unsigned build support. Do not publish a signed installer until packaging, signing, and installer behavior are reviewed separately.
 
 ## Release Notes Checklist
 
