@@ -154,7 +154,7 @@ npm run capture:ui
 
 ## 致谢
 
-AppShelf 的开发过程中使用了 OpenAI Codex 提供的协作辅助。
+AppShelf 是在一次持续的人类与 AI 协作中逐步形成的，开发过程中使用了 OpenAI Codex 和 GPT-5.5-high 提供的辅助。
 
 ## 许可证
 

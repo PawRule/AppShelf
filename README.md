@@ -154,7 +154,7 @@ The repository includes `examples/hello-localapp` as a deliberate sample project
 
 ## Acknowledgements
 
-AppShelf was developed with assistance from OpenAI Codex.
+AppShelf was shaped through an extended human-AI collaboration with OpenAI Codex and GPT-5.5-high.
 
 ## License
 
