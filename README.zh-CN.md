@@ -152,6 +152,10 @@ npm run capture:ui
 - [docs/LOCALAPP_MANIFEST_V0.md](docs/LOCALAPP_MANIFEST_V0.md)
 - [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md)
 
+## 致谢
+
+AppShelf 的开发过程中使用了 OpenAI Codex 提供的协作辅助。
+
 ## 许可证
 
 MIT. 见 [LICENSE](LICENSE)。

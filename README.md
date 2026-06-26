@@ -152,6 +152,10 @@ The repository includes `examples/hello-localapp` as a deliberate sample project
 - [docs/LOCALAPP_MANIFEST_V0.md](docs/LOCALAPP_MANIFEST_V0.md)
 - [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md)
 
+## Acknowledgements
+
+AppShelf was developed with assistance from OpenAI Codex.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
