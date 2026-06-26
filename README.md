@@ -1,82 +1,58 @@
-# AppShelf
+<p align="center">
+  <img src="assets/app-icon/appshelf-icon-source.png" width="108" alt="AppShelf logo">
+</p>
 
-中文文档: [README.zh-CN.md](README.zh-CN.md)
+<h1 align="center">AppShelf</h1>
 
-AppShelf is a Windows desktop app for managing localhost projects through a visual library.
+<p align="center">
+  A desktop shelf for local localhost projects.
+</p>
 
-It is designed for an AI-heavy local development workflow: agents can generate many localhost projects, but the human should not need to remember startup commands, reopen terminal sessions, or search old chat logs just to run them again.
+<p align="center">
+  <a href="README.zh-CN.md">中文文档</a>
+</p>
 
-Those projects can be web apps, personal sites, blogs, docs sites, dashboards, games, demos, or local tools. The common requirement is simple: a local command starts something useful at a localhost URL.
-
-Status: early preview, Windows-only. The repository is source-first; a local unsigned Windows unpacked build can be generated, but there is no signed public installer yet.
+<p align="center">
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-only-2563eb">
+  <img alt="Status" src="https://img.shields.io/badge/status-early_preview-0f9f7a">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-black">
+</p>
 
 ![AppShelf main screen](docs/images/appshelf-main.png)
 
-## What It Does
+AppShelf is a Windows desktop app for managing localhost projects through a visual library. It is built for an AI-heavy local development workflow where projects multiply quickly, but humans should not need to remember start commands, ports, folders, or old chat history just to run them again.
 
-- Discover localhost projects from user-approved folders by reading `.localapp.json`.
-- Manually register projects when no manifest exists.
-- Start, stop, restart, and open projects from a desktop GUI.
-- Show app status, logs, startup errors, ports, process IDs, and project paths.
-- Keep local preferences in the AppShelf user registry.
-- Support Chinese and English UI.
+Use it for local web apps, personal sites, blogs, docs, dashboards, games, demos, and tools. If a local command starts something useful at a localhost URL, AppShelf can keep it on your shelf.
 
-## What It Is Not
+## Highlights
 
-AppShelf is not an IDE, Docker replacement, PM2 GUI, package manager, remote deployment tool, or agent control plane.
+- **One-click launch:** start, stop, restart, and open local projects from a desktop GUI.
+- **Manifest-based registration:** discover projects from `.localapp.json` in folders you choose.
+- **Agent-friendly workflow:** ask an AI agent to register a project once, then manage it from AppShelf.
+- **Useful runtime context:** view status, logs, startup errors, ports, process IDs, and paths.
+- **Local-first:** preferences stay in the AppShelf user registry; logs are not uploaded automatically.
+- **Bilingual UI:** Chinese and English are supported.
 
-The v0 goal is narrow: make localhost projects easy to find and start.
+## Why AppShelf
 
-## Who It Is For
+AI agents make it cheap to create many local projects. The friction moves elsewhere: startup commands live in README files, package scripts, terminal history, or old conversations.
 
-AppShelf is for people who keep many local projects around, especially projects generated or maintained with AI agents. It is useful when the project already runs locally, but the start command, port, or folder is easy to forget.
+AppShelf keeps those projects in one place so you can launch them like a small local app library instead of remembering every command.
 
-## Current Limitations
+## Current Status
+
+AppShelf is an early preview.
 
 - Windows only.
-- No signed installer yet.
+- Source-first repository.
+- Local unsigned Windows unpacked builds are supported.
+- No signed public installer yet.
 - No environment installation or dependency repair.
 - No Git repository cloning/import flow.
 - No Docker Compose or remote deployment support.
 - `.localapp.json` is a draft local convention, not a finalized standard.
 
-## Safety Model
-
-`.localapp.json` contains executable commands. Treat it like code.
-
-AppShelf only scans folders the user chooses. It asks before running a command for the first time and asks again if the command changes. AppShelf does not upload logs automatically, does not manage secrets, and should only be pointed at trusted local projects.
-
-AppShelf is provided as a personal/open-source tool without warranty. You are responsible for reviewing local commands and deciding whether a project is safe to run.
-
-## Local App Manifest
-
-Minimal `.localapp.json`:
-
-```json
-{
-  "name": "My Web App",
-  "command": "npm run dev"
-}
-```
-
-Recommended:
-
-```json
-{
-  "$schema": "https://localapp.dev/schema/v0.json",
-  "name": "My Web App",
-  "description": "A short description of the app.",
-  "icon": ".localapp/icon.png",
-  "command": "npm run dev",
-  "url": "http://localhost:5173",
-  "port": 5173,
-  "workingDirectory": "."
-}
-```
-
-See [SPEC.md](SPEC.md) for the draft manifest spec and [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md) for agent registration guidance.
-
-## Development
+## Quick Start
 
 Requirements:
 
@@ -101,6 +77,52 @@ Or use the local helper:
 .\start-AppShelf.cmd
 ```
 
+Create a local unsigned Windows unpacked build:
+
+```powershell
+npm run pack:win
+```
+
+The build is written to `release/win-unpacked/AppShelf.exe`. It is ignored by Git and is not a signed public release artifact.
+
+## Register a Project
+
+Minimal `.localapp.json`:
+
+```json
+{
+  "name": "My Web App",
+  "command": "npm run dev"
+}
+```
+
+Recommended fields:
+
+```json
+{
+  "$schema": "https://localapp.dev/schema/v0.json",
+  "name": "My Web App",
+  "description": "A short description of the app.",
+  "icon": ".localapp/icon.png",
+  "command": "npm run dev",
+  "url": "http://localhost:5173",
+  "port": 5173,
+  "workingDirectory": "."
+}
+```
+
+For agent-assisted registration, see [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md). For the manifest reference, see [docs/LOCALAPP_MANIFEST_V0.md](docs/LOCALAPP_MANIFEST_V0.md).
+
+## Safety Model
+
+`.localapp.json` contains executable commands. Treat it like code.
+
+AppShelf only scans folders you choose. It asks before running a command for the first time and asks again if the command changes. Only add projects you trust.
+
+AppShelf is provided as a personal/open-source tool without warranty. You are responsible for reviewing local commands and deciding whether a project is safe to run.
+
+## Development
+
 Typecheck:
 
 ```powershell
@@ -118,14 +140,6 @@ Capture a sanitized README screenshot:
 ```powershell
 npm run capture:ui
 ```
-
-Create a local unsigned Windows unpacked build:
-
-```powershell
-npm run pack:win
-```
-
-This writes a testable desktop build to `release/win-unpacked/AppShelf.exe`. The output is ignored by Git and is not a signed public release artifact.
 
 ## Sample Project
 

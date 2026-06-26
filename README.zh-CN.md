@@ -1,82 +1,58 @@
-# AppShelf
+<p align="center">
+  <img src="assets/app-icon/appshelf-icon-source.png" width="108" alt="AppShelf logo">
+</p>
 
-English: [README.md](README.md)
+<h1 align="center">AppShelf</h1>
 
-AppShelf 是一个 Windows 桌面应用，用于通过可视化库集中管理本地 localhost 项目。
+<p align="center">
+  一个用于管理本地 localhost 项目的桌面书架。
+</p>
 
-它面向 AI agent 参与的本地开发工作流：当 agent 可以快速生成很多 localhost 项目时，人不应该再为了重新运行项目而记启动命令、翻旧聊天记录、重新打开命令行。
+<p align="center">
+  <a href="README.md">English</a>
+</p>
 
-这些项目可以是 web app、个人网站、博客、文档站、仪表盘、游戏、demo 或本地工具。共同点很简单：一个本地命令启动一个可在 localhost URL 打开的项目。
-
-状态：早期预览版，仅支持 Windows。当前仓库以源码公开为主，可以在本地生成 unsigned Windows unpacked build，但还没有签名的公开安装器。
+<p align="center">
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-only-2563eb">
+  <img alt="Status" src="https://img.shields.io/badge/status-early_preview-0f9f7a">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-black">
+</p>
 
 ![AppShelf main screen](docs/images/appshelf-main.png)
 
-## 功能
+AppShelf 是一个 Windows 桌面应用，用于通过可视化库集中管理本地 localhost 项目。它面向 AI agent 参与的本地开发工作流：项目可以快速变多，但人不应该为了重新运行项目而记启动命令、端口、文件夹路径或旧聊天记录。
 
-- 从用户指定的目录读取 `.localapp.json`，发现 localhost 项目。
-- 在没有 manifest 时手动注册项目。
-- 在桌面 GUI 中启动、停止、重启和打开项目。
-- 显示项目状态、日志、启动错误、端口、进程 ID 和项目路径。
-- 将本地偏好保存在 AppShelf 用户注册表中。
-- 支持中文和英文界面。
+它适合管理本地 web app、个人网站、博客、文档站、仪表盘、游戏、demo 和工具。只要一个本地命令能启动一个 localhost URL 上的项目，AppShelf 就可以把它放到你的本地书架里。
 
-## 不是什么
+## 亮点
 
-AppShelf 不是 IDE、Docker 替代品、PM2 GUI、包管理器、远程部署工具，也不是 agent control plane。
+- **一键启动：** 在桌面 GUI 中启动、停止、重启和打开本地项目。
+- **Manifest 注册：** 从你指定目录里的 `.localapp.json` 发现项目。
+- **Agent 友好：** 让 AI agent 帮项目注册一次，之后在 AppShelf 里管理。
+- **运行上下文：** 查看状态、日志、启动错误、端口、进程 ID 和路径。
+- **本地优先：** 偏好保存在 AppShelf 用户注册表中，日志不会自动上传。
+- **双语界面：** 支持中文和英文。
 
-v0 的目标很窄：让本地 localhost 项目更容易找到和启动。
+## 为什么需要 AppShelf
 
-## 适合谁
+AI agent 让创建本地项目变得很便宜。新的麻烦转移到了另一个地方：启动命令可能散落在 README、package scripts、终端历史或旧对话里。
 
-AppShelf 适合本地保留了很多项目的人，尤其是经常使用 AI agent 生成或维护项目的人。当项目本身已经可以在本地运行，但启动命令、端口或项目路径很容易忘记时，AppShelf 会更有价值。
+AppShelf 把这些项目集中放在一个地方，让你像打开本地应用库一样启动项目，而不是记住每个命令。
 
-## 当前限制
+## 当前状态
+
+AppShelf 仍处于早期预览阶段。
 
 - 仅支持 Windows。
-- 还没有签名安装器。
+- 仓库以源码公开为主。
+- 支持生成本地 unsigned Windows unpacked build。
+- 暂无签名公开安装器。
 - 不负责安装运行环境或修复依赖。
 - 不支持 Git 仓库克隆/导入流程。
 - 不支持 Docker Compose 或远程部署。
 - `.localapp.json` 仍是草案性质的本地约定，不是最终标准。
 
-## 安全模型
-
-`.localapp.json` 包含可执行命令。请把它当作代码看待。
-
-AppShelf 只扫描用户选择的目录。首次运行命令前会询问用户确认；命令发生变化后也会再次询问。AppShelf 不会自动上传日志，不管理密钥，也应该只指向你信任的本地项目。
-
-AppShelf 作为个人/开源工具按现状提供，不提供任何担保。你需要自行审查本地命令，并判断项目是否可以安全运行。
-
-## Local App Manifest
-
-最小 `.localapp.json`：
-
-```json
-{
-  "name": "My Web App",
-  "command": "npm run dev"
-}
-```
-
-推荐写法：
-
-```json
-{
-  "$schema": "https://localapp.dev/schema/v0.json",
-  "name": "My Web App",
-  "description": "A short description of the app.",
-  "icon": ".localapp/icon.png",
-  "command": "npm run dev",
-  "url": "http://localhost:5173",
-  "port": 5173,
-  "workingDirectory": "."
-}
-```
-
-更多信息见 [SPEC.md](SPEC.md) 和 [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md)。
-
-## 开发
+## 快速开始
 
 要求：
 
@@ -101,6 +77,52 @@ npm run dev
 .\start-AppShelf.cmd
 ```
 
+生成本地 unsigned Windows unpacked build：
+
+```powershell
+npm run pack:win
+```
+
+输出位于 `release/win-unpacked/AppShelf.exe`。该目录已被 Git 忽略，不是签名的正式发布产物。
+
+## 注册项目
+
+最小 `.localapp.json`：
+
+```json
+{
+  "name": "My Web App",
+  "command": "npm run dev"
+}
+```
+
+推荐字段：
+
+```json
+{
+  "$schema": "https://localapp.dev/schema/v0.json",
+  "name": "My Web App",
+  "description": "A short description of the app.",
+  "icon": ".localapp/icon.png",
+  "command": "npm run dev",
+  "url": "http://localhost:5173",
+  "port": 5173,
+  "workingDirectory": "."
+}
+```
+
+如果希望让 agent 帮项目注册，见 [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md)。Manifest 参考文档见 [docs/LOCALAPP_MANIFEST_V0.md](docs/LOCALAPP_MANIFEST_V0.md)。
+
+## 安全模型
+
+`.localapp.json` 包含可执行命令。请把它当作代码看待。
+
+AppShelf 只扫描你选择的目录。首次运行命令前会询问确认；命令发生变化后也会再次询问。请只添加你信任的项目。
+
+AppShelf 作为个人/开源工具按现状提供，不提供任何担保。你需要自行审查本地命令，并判断项目是否可以安全运行。
+
+## 开发
+
 类型检查：
 
 ```powershell
@@ -118,14 +140,6 @@ npm run build
 ```powershell
 npm run capture:ui
 ```
-
-生成本地 unsigned Windows unpacked build：
-
-```powershell
-npm run pack:win
-```
-
-输出位于 `release/win-unpacked/AppShelf.exe`。该目录已被 Git 忽略，不是签名的正式发布产物。
 
 ## 示例项目
 
