@@ -14,7 +14,6 @@ This project is currently pre-release. If the repository is shared privately, re
 - AppShelf should not store tokens, API keys, passwords, or private credentials in `.localapp.json`.
 - Logs and screenshots may contain local paths or app output; remove sensitive content before sharing.
 
-## Before Public Release
+## Safety Notes
 
-Run the release checklist in [docs/PUBLIC_RELEASE_CHECKLIST.md](docs/PUBLIC_RELEASE_CHECKLIST.md), including the secrets audit.
-
+AppShelf is provided as a personal/open-source tool without warranty. Review commands before running them, and do not add projects you do not trust.

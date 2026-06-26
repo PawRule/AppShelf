@@ -1,5 +1,7 @@
 # AppShelf
 
+中文文档: [README.zh-CN.md](README.zh-CN.md)
+
 AppShelf is a Windows desktop app for managing localhost projects through a visual library.
 
 It is designed for an AI-heavy local development workflow: agents can generate many localhost projects, but the human should not need to remember startup commands, reopen terminal sessions, or search old chat logs just to run them again.
@@ -43,6 +45,8 @@ AppShelf is for people who keep many local projects around, especially projects 
 `.localapp.json` contains executable commands. Treat it like code.
 
 AppShelf only scans folders the user chooses. It asks before running a command for the first time and asks again if the command changes. AppShelf does not upload logs automatically, does not manage secrets, and should only be pointed at trusted local projects.
+
+AppShelf is provided as a personal/open-source tool without warranty. You are responsible for reviewing local commands and deciding whether a project is safe to run.
 
 ## Local App Manifest
 
@@ -129,11 +133,10 @@ The repository includes `examples/hello-localapp` as a deliberate sample project
 
 ## Project Docs
 
-- [PRODUCT_REQUIREMENTS.md](PRODUCT_REQUIREMENTS.md)
 - [SPEC.md](SPEC.md)
 - [ARCHITECTURE.md](ARCHITECTURE.md)
-- [TASKS.md](TASKS.md)
-- [docs/PUBLIC_RELEASE_CHECKLIST.md](docs/PUBLIC_RELEASE_CHECKLIST.md)
+- [docs/LOCALAPP_MANIFEST_V0.md](docs/LOCALAPP_MANIFEST_V0.md)
+- [docs/AGENT_REGISTER_LOCALAPP.md](docs/AGENT_REGISTER_LOCALAPP.md)
 
 ## License
 
